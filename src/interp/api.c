@@ -1190,7 +1190,7 @@ Parrot_interp_clear_trace(PARROT_INTERP, UINTVAL flag)
 
 /*
 
-=item C<Parrot_Int Parrot_interp_test_flag(PARROT_INTERP, INTVAL flag)>
+=item C<Parrot_Int Parrot_interp_test_flag(PARROT_INTERP, UINTVAL flag)>
 
 Test the interpreter flags specified in C<flag>.
 
@@ -1201,7 +1201,7 @@ Test the interpreter flags specified in C<flag>.
 PARROT_EXPORT
 PARROT_PURE_FUNCTION
 Parrot_Int
-Parrot_interp_test_flag(PARROT_INTERP, INTVAL flag)
+Parrot_interp_test_flag(PARROT_INTERP, UINTVAL flag)
 {
     ASSERT_ARGS(Parrot_interp_test_flag)
     return Interp_flags_TEST(interp, flag);
