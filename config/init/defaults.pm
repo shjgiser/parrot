@@ -194,19 +194,23 @@ sub runstep {
 
         #avoid a warning during Configure.pl
         libparrot_soname => '',
+        inst_libparrot_soname => '',
 
         perl      => $^X,
         test_prog => 'parrot',
 
         # some utilities in Makefile
-        cat       => '$(PERL) -MExtUtils::Command -e cat',
-        chmod     => '$(PERL) -MExtUtils::Command -e chmod',
-        cp        => '$(PERL) -MExtUtils::Command -e cp',
-        mkpath    => '$(PERL) -MExtUtils::Command -e mkpath',
-        mv        => '$(PERL) -MExtUtils::Command -e mv',
-        rm_f      => '$(PERL) -MExtUtils::Command -e rm_f',
-        rm_rf     => '$(PERL) -MExtUtils::Command -e rm_rf',
-        touch     => '$(PERL) -MExtUtils::Command -e touch',
+        cat       => which('cat')   || '$(PERL) -MExtUtils::Command -e cat',
+        chmod     => which('chmod') || '$(PERL) -MExtUtils::Command -e chmod',
+        cp        => which('cp')    || '$(PERL) -MExtUtils::Command -e cp',
+        mkpath    => which('mkdir') ? which('mkdir')." -p"
+                                     : '$(PERL) -MExtUtils::Command -e mkpath',
+        mv        => which('mv')    || '$(PERL) -MExtUtils::Command -e mv',
+        rm_f      => which('rm') ? which('rm')." -f"
+                                      :'$(PERL) -MExtUtils::Command -e rm_f',
+        rm_rf     => which('rm') ? which('rm')." -rf"
+                                      :'$(PERL) -MExtUtils::Command -e rm_f',
+        touch     => which('touch') || '$(PERL) -MExtUtils::Command -e touch',
 
         # added with 6.9.0 to hint at the rename ops2c => parrot-ops2c
         ops2c     => 'parrot-ops2c',
