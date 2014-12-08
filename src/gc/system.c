@@ -470,13 +470,13 @@ trace_mem_block(PARROT_INTERP,
                 ? mask & buffer_min
                 : 0;
 
-#if (GC_USE_PRECISE == 1) && defined(MEMORY_DEBUG)
-#  define GC_PRECISE_WARN(msg)                                          \
+#  if (GC_USE_PRECISE == 1) && defined(MEMORY_DEBUG)
+#    define GC_PRECISE_WARN(msg)                                          \
     if (Interp_debug_TEST(interp, PARROT_MEM_STAT_DEBUG_FLAG | PARROT_GC_DETAIL_DEBUG_FLAG)) \
-        fprintf(stderr, "GC_USE_PRECISE: "msg, (void *)ptr, (void *)cur_var_ptr)
-#else
-#  define GC_PRECISE_WARN(msg)
-#endif
+        fprintf(stderr, "GC_USE_PRECISE: "(msg), (void *)ptr, (void *)cur_var_ptr)
+#  else
+#    define GC_PRECISE_WARN(msg)
+#  endif
 
 
     for (cur_var_ptr = lo_var_ptr; cur_var_ptr < (ptrdiff_t)hi_var_ptr; cur_var_ptr++) {
@@ -511,7 +511,7 @@ trace_mem_block(PARROT_INTERP,
             }
         }
     }
-#undef GC_PRECISE_WARN
+#  undef GC_PRECISE_WARN
 
     return;
 }
